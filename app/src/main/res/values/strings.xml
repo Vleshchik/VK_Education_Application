@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">VK_Education_Application</string>
+
+    <!-- Тулбар -->
+    <string name="toolbar_title">Список приложений</string>
+    <string name="cd_toolbar_icon">Иконка приложения</string>
+    <string name="cd_app_icon">Иконка приложения в списке</string>
+
+    <!-- Категории -->
+    <string name="category_app">Приложение</string>
+    <string name="category_game">Игра</string>
 </resources>
