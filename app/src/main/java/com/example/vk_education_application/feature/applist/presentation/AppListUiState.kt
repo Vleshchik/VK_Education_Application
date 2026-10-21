@@ -1,6 +1,6 @@
 package com.example.vk_education_application.feature.applist.presentation
 
-import com.example.vk_education_application.feature.applist.domain.model.App
+import com.example.vk_education_application.core.model.App
 
 data class AppListUiState(
     val isLoading: Boolean = false,

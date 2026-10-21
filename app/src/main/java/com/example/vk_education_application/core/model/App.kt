@@ -1,4 +1,4 @@
-package com.example.vk_education_application.feature.applist.domain.model
+package com.example.vk_education_application.core.model
 
 data class App(
     val id: Int,
@@ -7,7 +7,3 @@ data class App(
     val category: Category,
     val iconUrl: String,
 )
-
-enum class Category {
-    APP, GAME
-}

@@ -5,41 +5,61 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.vk_education_application.feature.applist.domain.model.App
-import com.example.vk_education_application.feature.applist.domain.model.Category
-import com.example.vk_education_application.feature.applist.presentation.components.AppListItem
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.vk_education_application.core.ui.AppListItem
 import com.example.vk_education_application.feature.applist.presentation.components.AppListToolbar
 
 @Composable
-fun AppListScreen(modifier: Modifier = Modifier) {
-    val apps = remember { getApps() } // захардкоженные данные
+fun AppListScreen(
+    onAppClick: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: AppListViewModel = hiltViewModel(),
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(modifier = modifier.fillMaxSize()) {
-        // 1. Тулбар
         AppListToolbar()
 
-        // 2. Список приложений
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(apps, key = { it.id }) { app ->
-                AppListItem(app = app)
-                HorizontalDivider(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    color = MaterialTheme.colorScheme.outlineVariant,
+        when {
+            uiState.isLoading -> {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
                 )
+            }
+
+            uiState.error != null -> {
+                // покажите ошибку
+            }
+
+            else -> {
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    items(uiState.apps, key = { it.id }) { app ->
+                        AppListItem(
+                            app = app,
+                            onClick = { onAppClick(app.id) },   // ← НОВОЕ
+                        )
+                        HorizontalDivider(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            color = MaterialTheme.colorScheme.outlineVariant,
+                        )
+                    }
+                }
             }
         }
     }
 }
 
 // Захардкоженные данные (в будущем — вызов API)
-private fun getApps(): List<App> = listOf(
+/*private fun getApps(): List<App> = listOf(
     App(
         id = 1,
         name = "Гильдия Героев: Экшен ММО РПГ",
@@ -103,10 +123,10 @@ private fun getApps(): List<App> = listOf(
         category = Category.GAME,
         iconUrl = "https://static.rustore.ru/imgproxy/ugU_ndH6NnkHfQ7bQGOyUUHgsxLa4VUa2_0TclHEN0o/preset:web_app_icon_160/plain/https://static.rustore.ru/2026/9/18/12/apk/2063496338/content/ICON/d93ff605-ed80-4c18-bcdf-9258acf503ff.png@webp",
     ),
-)
+)*/
 
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 private fun Preview() {
     AppListScreen()
-}
+}*/
