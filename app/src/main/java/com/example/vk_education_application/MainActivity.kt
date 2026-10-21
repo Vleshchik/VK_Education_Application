@@ -8,15 +8,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
-import com.example.vk_education_application.feature.applist.presentation.AppListScreen
+import com.example.vk_education_application.core.navigation.AppNavHost
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             MaterialTheme {
-                AppListScreen(
+                AppNavHost(
                     modifier = Modifier
                         .fillMaxSize()
                         .safeDrawingPadding(),
