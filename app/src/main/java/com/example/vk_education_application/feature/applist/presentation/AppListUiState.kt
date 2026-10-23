@@ -2,8 +2,14 @@ package com.example.vk_education_application.feature.applist.presentation
 
 import com.example.vk_education_application.core.model.App
 
-data class AppListUiState(
-    val isLoading: Boolean = false,
-    val apps: List<App> = emptyList(),
-    val error: String? = null,
-)
+sealed interface AppListUiState {
+
+    /** Загрузка данных */
+    data object Loading : AppListUiState
+
+    /** Ошибка загрузки */
+    data class Error(val message: String) : AppListUiState
+
+    /** Данные успешно загружены */
+    data class Content(val apps: List<App>) : AppListUiState
+}
