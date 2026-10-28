@@ -12,6 +12,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import javax.inject.Singleton
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -41,4 +43,15 @@ abstract class AppDetailsModule {
     abstract fun bindAppDetailsRepository(
         impl: AppDetailsRepositoryImpl,
     ): AppDetailsRepository
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+object MoshiModule {
+
+    @Provides
+    @Singleton
+    fun provideMoshi(): Moshi = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())   // ← обязателен для Kotlin data class
+        .build()
 }
