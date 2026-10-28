@@ -1,11 +1,16 @@
 package com.example.vk_education_application.feature.applist.presentation
 
+import android.content.res.Configuration
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -19,8 +24,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.vk_education_application.core.ui.AppListItem
 import com.example.vk_education_application.feature.applist.presentation.components.AppListToolbar
@@ -33,6 +39,10 @@ fun AppListScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
+
+    // Определяем ориентацию
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
@@ -74,16 +84,31 @@ fun AppListScreen(
                 }
 
                 is AppListUiState.Content -> {
-                    LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    val columns = if (isLandscape) GridCells.Fixed(3) else GridCells.Fixed(1)
+
+                    LazyVerticalGrid(
+                        columns = columns,
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
                         items(state.apps, key = { it.id }) { app ->
-                            AppListItem(
-                                app = app,
-                                onClick = { onAppClick(app.id) },
-                            )
-                            HorizontalDivider(
-                                modifier = Modifier.padding(horizontal = 16.dp),
-                                color = MaterialTheme.colorScheme.outlineVariant,
-                            )
+                            Column {
+                                AppListItem(
+                                    app = app,
+                                    onClick = { onAppClick(app.id) },
+                                    modifier = Modifier.fillMaxWidth(),
+                                )
+
+                                // Разделитель показываем ТОЛЬКО в вертикальном режиме (1 колонка)
+                                if (!isLandscape) {
+                                    HorizontalDivider(
+                                        modifier = Modifier.padding(top = 8.dp),
+                                        color = MaterialTheme.colorScheme.outlineVariant,
+                                    )
+                                }
+                            }
                         }
                     }
                 }
