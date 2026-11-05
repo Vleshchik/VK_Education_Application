@@ -23,6 +23,13 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.vk_education_application.core.model.App
 
+/**
+ * Шапка карточки приложения: кнопка «Назад», иконка, название и описание.
+ *
+ * @param app отображаемое приложение.
+ * @param onBackClick обработчик нажатия на кнопку возврата.
+ * @param modifier модификатор корневой колонки.
+ */
 @Composable
 fun AppDetailsHeader(
     app: App,

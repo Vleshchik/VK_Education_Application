@@ -13,21 +13,34 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel экрана списка приложений.
+ *
+ * При создании сразу запускает загрузку каталога через [GetAppsUseCase]
+ * и хранит результат в [uiState]. Разовые события отдаются через [events].
+ *
+ * @param getAppsUseCase use case загрузки списка приложений.
+ */
 @HiltViewModel
 class AppListViewModel @Inject constructor(
     private val getAppsUseCase: GetAppsUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<AppListUiState>(AppListUiState.Loading)
+
+    /** Текущее состояние экрана: загрузка, ошибка или контент. */
     val uiState: StateFlow<AppListUiState> = _uiState.asStateFlow()
 
     private val _events = Channel<AppListEvent>(Channel.BUFFERED)
+
+    /** Поток разовых событий (snackbar и т. п.). */
     val events: Flow<AppListEvent> = _events.receiveAsFlow()
 
     init {
         loadApps()
     }
 
+    /** Обрабатывает нажатие на заголовок тулбара, показывая snackbar. */
     fun onToolbarClick() {
         viewModelScope.launch {
             _events.send(AppListEvent.ShowSnackbar("Show Snackbar"))

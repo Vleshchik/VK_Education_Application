@@ -11,6 +11,15 @@ import androidx.navigation.navArgument
 import com.example.vk_education_application.feature.appdetails.presentation.AppDetailsScreen
 import com.example.vk_education_application.feature.applist.presentation.AppListScreen
 
+/**
+ * Корневой навигационный граф приложения.
+ *
+ * Регистрирует экран списка приложений ([AppListScreen]) как стартовый
+ * и экран карточки ([AppDetailsScreen]) с целочисленным аргументом `appId`.
+ *
+ * @param navController контроллер навигации; по умолчанию создаётся заново.
+ * @param modifier модификатор `NavHost`.
+ */
 @Composable
 fun AppNavHost(
     navController: NavHostController = rememberNavController(),

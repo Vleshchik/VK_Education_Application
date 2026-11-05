@@ -11,6 +11,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel экрана карточки приложения.
+ *
+ * Идентификатор приложения [appId] берётся из `SavedStateHandle` (аргумент навигации
+ * `appId`), после чего данные загружаются через [GetAppDetailsUseCase].
+ *
+ * @param savedStateHandle содержит аргументы навигации, включая `appId`.
+ * @param getAppDetails use case загрузки карточки и витрины.
+ */
 @HiltViewModel
 class AppDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
@@ -20,12 +29,15 @@ class AppDetailsViewModel @Inject constructor(
     private val appId: Int = checkNotNull(savedStateHandle["appId"])
 
     private val _uiState = MutableStateFlow<AppDetailsUiState>(AppDetailsUiState.Loading)
+
+    /** Текущее состояние экрана: загрузка, ошибка или контент. */
     val uiState: StateFlow<AppDetailsUiState> = _uiState.asStateFlow()
 
     init {
         load()
     }
 
+    /** Загружает данные приложения и список витрины, обновляя [uiState]. */
     private fun load() {
         viewModelScope.launch {
             _uiState.value = AppDetailsUiState.Loading

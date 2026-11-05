@@ -6,9 +6,19 @@ import com.squareup.moshi.Types
 import javax.inject.Inject
 
 
+/**
+ * Локальный источник данных каталога приложений.
+ *
+ * Пока вместо сети возвращает заранее заданный JSON-список, который
+ * десериализуется в [AppDto] с помощью Moshi. Используется как заглушка
+ * и как единый источник данных для экрана списка и карточки приложения.
+ *
+ * @param moshi настроенный экземпляр Moshi (см. `MoshiModule`).
+ */
 class AppLocalDataSource @Inject constructor(
     private val moshi: Moshi,
 ) {
+    /** JSON с демонстрационным каталогом приложений. */
     private val appsJson: String = """
         [
           {
@@ -77,6 +87,11 @@ class AppLocalDataSource @Inject constructor(
         ]
     """.trimIndent()
 
+    /**
+     * Парсит [appsJson] и возвращает список DTO.
+     *
+     * @return список [AppDto]; пустой список, если JSON не удалось разобрать.
+     */
     fun getApps(): List<AppDto> {
         val type = Types.newParameterizedType(List::class.java, AppDto::class.java)
         val adapter = moshi.adapter<List<AppDto>>(type)

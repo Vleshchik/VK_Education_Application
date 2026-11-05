@@ -13,6 +13,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.vk_education_application.core.model.App
 
+/**
+ * Прокручиваемое содержимое карточки приложения.
+ *
+ * Состоит из шапки [AppDetailsHeader], блока описания и витрины [ShowcaseBlock].
+ *
+ * @param app приложение, карточка которого открыта.
+ * @param showcaseApps приложения для блока «Витрина».
+ * @param onBackClick обработчик кнопки «Назад».
+ * @param onShowcaseAppClick открывает приложение из витрины по его `id`.
+ * @param modifier модификатор списка.
+ */
 @Composable
 fun AppDetailsContent(
     app: App,

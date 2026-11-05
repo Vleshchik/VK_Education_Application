@@ -26,6 +26,16 @@ import com.example.vk_education_application.R
 import com.example.vk_education_application.core.model.App
 import com.example.vk_education_application.core.model.Category
 
+/**
+ * Универсальный элемент списка приложений.
+ *
+ * Показывает иконку, категорию, название и краткое описание.
+ * Используется на экране списка и в блоке «Витрина».
+ *
+ * @param app отображаемое приложение.
+ * @param onClick обработчик нажатия на элемент.
+ * @param modifier модификатор корневого `Row`.
+ */
 @Composable
 fun AppListItem(
     app: App,
@@ -71,6 +81,12 @@ fun AppListItem(
     }
 }
 
+/**
+ * Возвращает локализованную подпись категории.
+ *
+ * @param category категория приложения.
+ * @return строка из ресурсов (`category_app` или `category_game`).
+ */
 @Composable
 private fun categoryText(category: Category): String = when (category) {
     Category.APP -> stringResource(R.string.category_app)

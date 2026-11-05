@@ -13,6 +13,18 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.vk_education_application.feature.appdetails.presentation.components.AppDetailsContent
 
+/**
+ * Экран карточки приложения.
+ *
+ * Подписывается на [AppDetailsViewModel.uiState] и показывает индикатор загрузки,
+ * текст ошибки либо контент через [AppDetailsContent].
+ *
+ * @param appId идентификатор приложения; используется ViewModel для загрузки данных.
+ * @param onBackClick обработчик кнопки «Назад».
+ * @param onShowcaseAppClick открывает другое приложение из блока «Витрина» по его `id`.
+ * @param modifier модификатор корневого контейнера.
+ * @param viewModel ViewModel экрана; по умолчанию создаётся Hilt.
+ */
 @Composable
 fun AppDetailsScreen(
     appId: Int,

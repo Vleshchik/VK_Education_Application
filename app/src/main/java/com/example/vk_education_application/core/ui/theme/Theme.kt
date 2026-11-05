@@ -10,12 +10,14 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
+/** Цветовая схема для тёмной темы. */
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
     tertiary = Pink80
 )
 
+/** Цветовая схема для светлой темы. */
 private val LightColorScheme = lightColorScheme(
     primary = Purple40,
     secondary = PurpleGrey40,
@@ -32,6 +34,16 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+/**
+ * Тема приложения на основе Material 3.
+ *
+ * На Android 12+ по умолчанию использует динамические цвета системы,
+ * иначе — статические схемы (`LightColorScheme` / `DarkColorScheme`).
+ *
+ * @param darkTheme использовать ли тёмную тему; по умолчанию — системная настройка.
+ * @param dynamicColor использовать ли динамические цвета (Android 12+).
+ * @param content содержимое, к которому применяется тема.
+ */
 @Composable
 fun VK_Education_ApplicationTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),

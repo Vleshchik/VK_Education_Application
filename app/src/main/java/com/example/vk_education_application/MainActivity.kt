@@ -11,8 +11,18 @@ import androidx.compose.ui.Modifier
 import com.example.vk_education_application.core.navigation.AppNavHost
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * Единственная Activity приложения.
+ *
+ * Включает режим edge-to-edge и размещает весь UI в Compose-дереве,
+ * начиная с [AppNavHost]. Контент получает отступы под системные панели
+ * через `safeDrawingPadding()`.
+ *
+ * [AndroidEntryPoint] позволяет Hilt внедрять зависимости в Activity и её ViewModel.
+ */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    /** Настраивает edge-to-edge и устанавливает корневой Compose-контент. */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

@@ -31,6 +31,20 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.vk_education_application.core.ui.AppListItem
 import com.example.vk_education_application.feature.applist.presentation.components.AppListToolbar
 
+/**
+ * Главный экран списка приложений.
+ *
+ * Подписывается на [AppListViewModel.uiState] и отображает одно из состояний
+ * [AppListUiState]: индикатор загрузки, текст ошибки или сетку приложений.
+ * Разовые события (например, snackbar) приходят через [AppListViewModel.events].
+ *
+ * В портретной ориентации список выводится в одну колонку с разделителями между
+ * элементами, в ландшафтной — в три колонки без разделителей.
+ *
+ * @param onAppClick вызывается при нажатии на элемент списка; передаёт `id` приложения.
+ * @param modifier модификатор, применяемый к корневому [Scaffold].
+ * @param viewModel ViewModel экрана; по умолчанию создаётся Hilt.
+ */
 @Composable
 fun AppListScreen(
     onAppClick: (Int) -> Unit,
@@ -44,6 +58,7 @@ fun AppListScreen(
     val configuration = LocalConfiguration.current
     val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
+    // Единая подписка на разовые события экрана (показываем snackbar)
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {

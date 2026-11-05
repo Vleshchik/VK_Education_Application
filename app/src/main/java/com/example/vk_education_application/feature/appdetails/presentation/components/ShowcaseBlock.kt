@@ -25,9 +25,23 @@ import androidx.compose.ui.unit.dp
 import com.example.vk_education_application.core.model.App
 import com.example.vk_education_application.core.ui.AppListItem
 
+/** Количество страниц в блоке «Витрина». */
 private const val PAGES = 3
+
+/** Количество приложений на одной странице витрины. */
 private const val ITEMS_PER_PAGE = 3
 
+/**
+ * Блок «Витрина» в карточке приложения.
+ *
+ * Показывает приложения постранично в [HorizontalPager] и индикатор страниц.
+ * В портретной ориентации элементы идут вертикальным списком с разделителями,
+ * в ландшафтной — в ряд по три элемента.
+ *
+ * @param apps приложения для показа (обычно не более [PAGES] × [ITEMS_PER_PAGE]).
+ * @param onAppClick вызывается при нажатии на приложение; передаёт его `id`.
+ * @param modifier модификатор корневой колонки.
+ */
 @Composable
 fun ShowcaseBlock(
     apps: List<App>,

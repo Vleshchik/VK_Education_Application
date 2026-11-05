@@ -10,6 +10,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+/**
+ * Заголовок экрана со списком приложений.
+ *
+ * Вся строка кликабельна; нажатие передаётся в [onClick]
+ * (сейчас используется для демонстрационного snackbar).
+ *
+ * @param onClick обработчик нажатия на тулбар.
+ * @param modifier модификатор корневого `Row`.
+ */
 @Composable
 fun AppListToolbar(
     onClick: () -> Unit,
