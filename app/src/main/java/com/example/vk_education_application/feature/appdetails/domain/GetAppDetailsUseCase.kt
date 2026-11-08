@@ -31,7 +31,7 @@ class GetAppDetailsUseCase @Inject constructor(
      * @param appId идентификатор открываемого приложения.
      * @return [AppDetailsData] либо `null`, если приложение не найдено.
      */
-    suspend operator fun invoke(appId: Int): AppDetailsData? {
+    suspend operator fun invoke(appId: String): AppDetailsData? {
         val app = repository.getAppDetails(appId) ?: return null
         val showcase = repository.getShowcaseApps()
         return AppDetailsData(app = app, showcaseApps = showcase)

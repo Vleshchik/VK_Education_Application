@@ -24,7 +24,7 @@ class AppDtoMapper @Inject constructor() {
         id = dto.id,
         name = dto.name,
         description = dto.description,
-        category = mapCategory(dto.category),
+        category = dto.category,
         iconUrl = dto.iconUrl,
     )
 
@@ -36,17 +36,4 @@ class AppDtoMapper @Inject constructor() {
      */
     fun map(list: List<AppDto>): List<App> = list.map(::map)
 
-    /**
-     * Приводит строковую категорию к [Category] без учёта регистра.
-     *
-     * Неизвестное значение трактуется как [Category.APP].
-     */
-    private fun mapCategory(rawCategory: String): Category {
-        // Приводим к нижнему регистру, чтобы "GAME", "game" и "Game" работали одинаково
-        return when (rawCategory.lowercase()) {
-            "game" -> Category.GAME
-            "app" -> Category.APP
-            else -> Category.APP // Значение по умолчанию, если пришло что-то неизвестное
-        }
-    }
 }

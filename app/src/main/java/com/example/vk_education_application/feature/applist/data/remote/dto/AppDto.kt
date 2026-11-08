@@ -10,7 +10,7 @@ package com.example.vk_education_application.feature.applist.data.remote.dto
  * @property iconUrl URL иконки.
  */
 data class AppDto(
-    val id: Int,
+    val id: String,
     val name: String,
     val description: String,
     val category: String,

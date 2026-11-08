@@ -20,7 +20,6 @@ import com.example.vk_education_application.core.model.App
  *
  * @param app приложение, карточка которого открыта.
  * @param showcaseApps приложения для блока «Витрина».
- * @param onBackClick обработчик кнопки «Назад».
  * @param onShowcaseAppClick открывает приложение из витрины по его `id`.
  * @param modifier модификатор списка.
  */
@@ -28,16 +27,17 @@ import com.example.vk_education_application.core.model.App
 fun AppDetailsContent(
     app: App,
     showcaseApps: List<App>,
-    onBackClick: () -> Unit,
-    onShowcaseAppClick: (Int) -> Unit,
+    onShowcaseAppClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(modifier = modifier.fillMaxSize()) {
 
+        // 1. Иконка, название и краткое описание
         item {
-            AppDetailsHeader(app = app, onBackClick = onBackClick)
+            AppDetailsHeader(app = app)
         }
 
+        // 2. Полное описание (если оно отличается от краткого)
         item {
             Column(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
                 Text("Описание", style = MaterialTheme.typography.titleMedium)
@@ -46,7 +46,7 @@ fun AppDetailsContent(
             }
         }
 
-        // 🔥 ВИТРИНА — в самом низу карточки
+        // 3. Блок Витрины
         item {
             ShowcaseBlock(
                 apps = showcaseApps,

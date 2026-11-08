@@ -59,7 +59,7 @@ fun AppListItem(
         Spacer(Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = categoryText(app.category),
+                text = app.category,
                 color = MaterialTheme.colorScheme.secondary,
                 fontSize = 12.sp,
             )
@@ -79,16 +79,4 @@ fun AppListItem(
             )
         }
     }
-}
-
-/**
- * Возвращает локализованную подпись категории.
- *
- * @param category категория приложения.
- * @return строка из ресурсов (`category_app` или `category_game`).
- */
-@Composable
-private fun categoryText(category: Category): String = when (category) {
-    Category.APP -> stringResource(R.string.category_app)
-    Category.GAME -> stringResource(R.string.category_game)
 }

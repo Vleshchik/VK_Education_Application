@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Named
 
 /**
  * ViewModel экрана списка приложений.
@@ -24,6 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AppListViewModel @Inject constructor(
     private val getAppsUseCase: GetAppsUseCase,
+    @Named("AppVersion") private val appVersion: String,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<AppListUiState>(AppListUiState.Loading)
@@ -38,6 +40,7 @@ class AppListViewModel @Inject constructor(
 
     init {
         loadApps()
+        println("Текущая версия приложения: $appVersion")
     }
 
     /** Обрабатывает нажатие на заголовок тулбара, показывая snackbar. */
