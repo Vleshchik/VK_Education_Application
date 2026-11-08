@@ -13,7 +13,7 @@ interface AppDetailsRepository {
      * @param appId идентификатор приложения.
      * @return доменная модель [App] или `null`, если приложение не найдено.
      */
-    suspend fun getAppDetails(appId: Int): App?
+    suspend fun getAppDetails(appId: String): App?
 
     /**
      * Возвращает приложения для блока «Витрина».

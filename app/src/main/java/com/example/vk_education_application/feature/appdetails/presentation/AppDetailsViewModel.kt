@@ -26,7 +26,7 @@ class AppDetailsViewModel @Inject constructor(
     private val getAppDetails: GetAppDetailsUseCase,
 ) : ViewModel() {
 
-    private val appId: Int = checkNotNull(savedStateHandle["appId"])
+    private val appId: String = checkNotNull(savedStateHandle["appId"])
 
     private val _uiState = MutableStateFlow<AppDetailsUiState>(AppDetailsUiState.Loading)
 

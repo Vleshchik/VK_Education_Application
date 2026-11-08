@@ -26,5 +26,5 @@ object AppRoutes {
      * @param appId идентификатор приложения.
      * @return маршрут вида `app_details/<appId>`.
      */
-    fun appDetails(appId: Int) = "$APP_DETAILS/$appId"
+    fun appDetails(appId: String) = "$APP_DETAILS/$appId"
 }

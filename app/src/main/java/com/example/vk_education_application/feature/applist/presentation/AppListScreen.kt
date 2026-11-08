@@ -47,7 +47,7 @@ import com.example.vk_education_application.feature.applist.presentation.compone
  */
 @Composable
 fun AppListScreen(
-    onAppClick: (Int) -> Unit,
+    onAppClick: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: AppListViewModel = hiltViewModel(),
 ) {

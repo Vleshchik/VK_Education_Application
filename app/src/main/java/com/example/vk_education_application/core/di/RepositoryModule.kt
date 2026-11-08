@@ -31,20 +31,6 @@ abstract class RepositoryModule {
 }
 
 /**
- * Hilt-модуль сетевых зависимостей.
- */
-@Module
-@InstallIn(SingletonComponent::class)
-object NetworkModule {
-
-    /** Создаёт реализацию [AppApiService] на основе переданного Retrofit. */
-    @Provides
-    @Singleton
-    fun provideAppApiService(retrofit: Retrofit): AppApiService =
-        retrofit.create(AppApiService::class.java)
-}
-
-/**
  * Hilt-модуль привязки репозитория карточки приложения.
  */
 @Module

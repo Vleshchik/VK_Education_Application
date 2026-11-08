@@ -45,7 +45,7 @@ private const val ITEMS_PER_PAGE = 3
 @Composable
 fun ShowcaseBlock(
     apps: List<App>,
-    onAppClick: (Int) -> Unit,
+    onAppClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val configuration = LocalConfiguration.current

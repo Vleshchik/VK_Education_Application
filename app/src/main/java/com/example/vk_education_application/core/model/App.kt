@@ -12,9 +12,9 @@ package com.example.vk_education_application.core.model
  * @property iconUrl URL иконки.
  */
 data class App(
-    val id: Int,
+    val id: String,
     val name: String,
     val description: String,
-    val category: Category,
+    val category: String,
     val iconUrl: String,
 )

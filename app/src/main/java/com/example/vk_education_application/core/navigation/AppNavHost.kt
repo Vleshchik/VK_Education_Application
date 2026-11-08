@@ -43,10 +43,10 @@ fun AppNavHost(
         composable(
             route = AppRoutes.APP_DETAILS_ROUTE,
             arguments = listOf(
-                navArgument(AppRoutes.ARG_APP_ID) { type = NavType.IntType },
+                navArgument(AppRoutes.ARG_APP_ID) { type = NavType.StringType },
             ),
         ) { backStackEntry ->
-            val appId = backStackEntry.arguments?.getInt(AppRoutes.ARG_APP_ID) ?: return@composable
+            val appId = backStackEntry.arguments?.getString(AppRoutes.ARG_APP_ID) ?: return@composable
 
             AppDetailsScreen(
                 appId = appId,

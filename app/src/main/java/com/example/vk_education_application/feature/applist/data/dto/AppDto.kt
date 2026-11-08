@@ -18,9 +18,9 @@ import com.squareup.moshi.JsonClass
  */
 @JsonClass(generateAdapter = true)
 data class AppDto(
-    @Json(name = "id") val id: Int,
+    @Json(name = "id") val id: String,
     @Json(name = "name") val name: String,
     @Json(name = "description") val description: String,
     @Json(name = "category") val category: String,
-    @Json(name = "icon_url") val iconUrl: String,
+    @Json(name = "iconUrl") val iconUrl: String,
 )

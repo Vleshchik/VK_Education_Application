@@ -66,6 +66,8 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.moshi)
     implementation(libs.moshi.kotlin)
+    implementation(libs.converter.moshi)
+    implementation(libs.coil.kt.coil.compose)
 
     ksp(libs.hilt.android.compiler)
     ksp(libs.androidx.hilt.compiler)
