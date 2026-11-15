@@ -71,6 +71,8 @@ fun AppDetailsScreen(
                         app = s.app,
                         showcaseApps = s.showcaseApps,
                         onShowcaseAppClick = onShowcaseAppClick,
+                        onInstallClick = viewModel::onInstallClick,
+                        installState = s.installState,
                         modifier = Modifier.fillMaxSize(),
                     )
                 }

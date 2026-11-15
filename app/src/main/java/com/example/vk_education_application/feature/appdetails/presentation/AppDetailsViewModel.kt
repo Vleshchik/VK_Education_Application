@@ -5,9 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.vk_education_application.feature.appdetails.domain.GetAppDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,6 +36,8 @@ class AppDetailsViewModel @Inject constructor(
     /** Текущее состояние экрана: загрузка, ошибка или контент. */
     val uiState: StateFlow<AppDetailsUiState> = _uiState.asStateFlow()
 
+    private var installJob: Job? = null
+
     init {
         load()
     }
@@ -56,6 +61,40 @@ class AppDetailsViewModel @Inject constructor(
                     e.message ?: "Не удалось загрузить данные",
                 )
             }
+        }
+    }
+
+    fun onInstallClick() {
+        val current = _uiState.value
+        if (current !is AppDetailsUiState.Content) return
+
+        if (current.installState is InstallState.Installing) {
+            // Отменяем установку
+            installJob?.cancel()
+            installJob = null
+            _uiState.update {
+                if (it is AppDetailsUiState.Content) it.copy(installState = InstallState.NotInstalled) else it
+            }
+        } else {
+            // Запускаем установку
+            installJob = viewModelScope.launch {
+                emulateInstall()
+            }
+        }
+    }
+
+    private suspend fun emulateInstall() {
+        for (progress in 0..100 step 5) {
+            delay(150)
+            _uiState.update {
+                if (it is AppDetailsUiState.Content) {
+                    it.copy(installState = InstallState.Installing(progress))
+                } else it
+            }
+        }
+        // По окончании
+        _uiState.update {
+            if (it is AppDetailsUiState.Content) it.copy(installState = InstallState.Installed) else it
         }
     }
 }
