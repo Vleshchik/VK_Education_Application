@@ -16,4 +16,6 @@ interface AppListRepository {
      * @return список доменных моделей [App]; пустой список, если данных нет.
      */
     suspend fun getApps(): List<App>
+    suspend fun loadRatingsSequentially(ids: List<String>): Map<String, Float>
+    suspend fun loadRatingsInParallel(ids: List<String>): Map<String, Float>
 }

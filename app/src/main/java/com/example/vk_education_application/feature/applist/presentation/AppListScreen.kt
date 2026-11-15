@@ -74,7 +74,11 @@ fun AppListScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
-            AppListToolbar(onClick = viewModel::onToolbarClick)
+            AppListToolbar(
+                onTitleClick = viewModel::onToolbarClick,
+                onLoadSequential = viewModel::loadRatingsSequentially,
+                onLoadParallel = viewModel::loadRatingsInParallel
+            )
 
             when (val state = uiState) {
                 is AppListUiState.Loading -> {

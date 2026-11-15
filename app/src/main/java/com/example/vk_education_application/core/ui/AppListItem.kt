@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -76,6 +77,23 @@ fun AppListItem(
                 fontSize = 13.sp,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
+            )
+        }
+
+        Text(
+            text = app.name,
+            fontWeight = FontWeight.Bold,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f, fill = false)
+        )
+        if (app.rating != null) {
+            Spacer(Modifier.width(8.dp))
+            Text(
+                text = "★ ${app.rating}",
+                color = Color(0xFFFFB300), // Золотой цвет
+                fontWeight = FontWeight.Bold,
+                fontSize = 12.sp
             )
         }
     }

@@ -2,6 +2,12 @@ package com.example.vk_education_application.feature.appdetails.presentation
 
 import com.example.vk_education_application.core.model.App
 
+sealed interface InstallState {
+    data object NotInstalled : InstallState
+    data class Installing(val progress: Int) : InstallState
+    data object Installed : InstallState
+}
+
 /**
  * Состояние экрана карточки приложения.
  */
@@ -26,5 +32,6 @@ sealed interface AppDetailsUiState {
     data class Content(
         val app: App,
         val showcaseApps: List<App>,
+        val installState: InstallState = InstallState.NotInstalled,
     ) : AppDetailsUiState
 }

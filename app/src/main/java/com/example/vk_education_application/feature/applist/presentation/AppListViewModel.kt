@@ -2,7 +2,10 @@ package com.example.vk_education_application.feature.applist.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.vk_education_application.core.model.App
 import com.example.vk_education_application.feature.applist.domain.usecase.GetAppsUseCase
+import com.example.vk_education_application.feature.applist.domain.usecase.LoadRatingsInParallelUseCase
+import com.example.vk_education_application.feature.applist.domain.usecase.LoadRatingsSequentiallyUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -13,6 +16,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Named
+import kotlin.collections.map
 
 /**
  * ViewModel экрана списка приложений.
@@ -25,6 +29,8 @@ import javax.inject.Named
 @HiltViewModel
 class AppListViewModel @Inject constructor(
     private val getAppsUseCase: GetAppsUseCase,
+    private val loadRatingsSequentiallyUseCase: LoadRatingsSequentiallyUseCase,
+    private val loadRatingsInParallelUseCase: LoadRatingsInParallelUseCase,
     @Named("AppVersion") private val appVersion: String,
 ) : ViewModel() {
 
@@ -37,6 +43,9 @@ class AppListViewModel @Inject constructor(
 
     /** Поток разовых событий (snackbar и т. п.). */
     val events: Flow<AppListEvent> = _events.receiveAsFlow()
+
+    private val _ratingsLoading = MutableStateFlow(false)
+    val ratingsLoading: StateFlow<Boolean> = _ratingsLoading.asStateFlow()
 
     init {
         loadApps()
@@ -62,5 +71,38 @@ class AppListViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun loadRatingsSequentially() {
+        viewModelScope.launch {
+            val current = _uiState.value
+            if (current is AppListUiState.Content) {
+                _ratingsLoading.value = true
+                val ids = current.apps.map { it.id }
+                val ratingsMap = loadRatingsSequentiallyUseCase(ids)
+                updateAppsWithRatings(current.apps, ratingsMap)
+                _ratingsLoading.value = false
+            }
+        }
+    }
+
+    fun loadRatingsInParallel() {
+        viewModelScope.launch {
+            val current = _uiState.value
+            if (current is AppListUiState.Content) {
+                _ratingsLoading.value = true
+                val ids = current.apps.map { it.id }
+                val ratingsMap = loadRatingsInParallelUseCase(ids)
+                updateAppsWithRatings(current.apps, ratingsMap)
+                _ratingsLoading.value = false
+            }
+        }
+    }
+
+    private fun updateAppsWithRatings(apps: List<App>, ratingsMap: Map<String, Float>) {
+        val updatedApps = apps.map { app ->
+            app.copy(rating = ratingsMap[app.id])
+        }
+        _uiState.value = AppListUiState.Content(updatedApps)
     }
 }
