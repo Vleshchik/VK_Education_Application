@@ -35,4 +35,21 @@ class GetAppsUseCaseTest {
         assertTrue(thrown is IllegalStateException)
         assertEquals("network error", thrown?.message)
     }
+
+    @Test
+    fun `invoke returns correct count of apps`() = runTest {
+        val apps = listOf(testApp(1), testApp(2), testApp(3))
+        val useCase = GetAppsUseCase(FakeAppListRepository(apps = apps))
+
+        assertEquals(3, useCase().size)
+    }
+
+    @Test
+    fun `invoke returns apps with correct names`() = runTest {
+        val apps = listOf(testApp(1, name = "App1"), testApp(2, name = "App2"))
+        val useCase = GetAppsUseCase(FakeAppListRepository(apps = apps))
+
+        assertEquals("App1", useCase()[0].name)
+        assertEquals("App2", useCase()[1].name)
+    }
 }

@@ -38,13 +38,25 @@ class AppListRepositoryImplTest {
     fun `getApps converts string categories to enum`() = runTest {
         val apps = repository.getApps()
 
-        assertEquals(Category.GAME, apps.first { it.id == 1 }.category)
-        assertEquals(Category.APP, apps.first { it.id == 2 }.category)
+        assertEquals(Category.GAME, apps.first { it.id == "1" }.category)
+        assertEquals(Category.APP, apps.first { it.id == "2" }.category)
         assertTrue(apps.all { it.category == Category.APP || it.category == Category.GAME })
     }
 
     @Test
     fun `getApps keeps icon urls`() = runTest {
         assertTrue(repository.getApps().all { it.iconUrl.startsWith("https://") })
+    }
+
+    @Test
+    fun `getApps returns items in correct order`() = runTest {
+        val apps = repository.getApps()
+        assertEquals(listOf("1", "2", "3", "4", "5", "6", "7"), apps.map { it.id })
+    }
+
+    @Test
+    fun `getApps returns correct number of items`() = runTest {
+        val apps = repository.getApps()
+        assertEquals(7, apps.size)
     }
 }
