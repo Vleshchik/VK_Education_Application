@@ -51,6 +51,12 @@ class AppDetailsRepositoryImplTest {
         val showcase = repository.getShowcaseApps()
 
         assertTrue(showcase.all { it.category == Category.APP || it.category == Category.GAME })
-        assertEquals(Category.GAME, showcase.first { it.id == 1 }.category)
+        assertEquals(Category.GAME, showcase.first { it.id == "1" }.category)
+    }
+
+    @Test
+    fun `getShowcaseApps returns icons correctly`() = runTest {
+        val showcase = repository.getShowcaseApps()
+        assertTrue(showcase.all { it.iconUrl.isNotEmpty() })
     }
 }
